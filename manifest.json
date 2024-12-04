@@ -18,7 +18,7 @@
         "id": "todoist_api_token",
         "type": "input",
         "name": "API Token",
-        "description": "You can get an API following this: https://todoist.com/help/articles/find-your-api-token-Jpzx9IIlB",
+        "description": "You can get an API token following this: https://todoist.com/help/articles/find-your-api-token-Jpzx9IIlB",
         "default_value": ""
       }
     ]
