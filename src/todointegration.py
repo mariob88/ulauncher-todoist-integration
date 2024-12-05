@@ -1,7 +1,6 @@
 import logging as log
 
 from ulauncher.api.client.Extension import Extension
-from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from .queryevent import KeywordQueryEventListener
 from .enterevent import ItemEnterEventListener

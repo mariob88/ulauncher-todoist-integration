@@ -1,5 +1,4 @@
 import logging as log
-import re
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
@@ -14,7 +13,6 @@ class KeywordQueryEventListener(EventListener):
         pass
 
     def on_event(self, event, extension):
-        items = []
         query = event.get_argument() or ""
 
         if not query:
@@ -33,7 +31,7 @@ class KeywordQueryEventListener(EventListener):
                 ExtensionResultItem(name = "Create task",
                                 description = "Write a text for the new task and click enter.",
                                 icon = 'images/create.png',
-                                on_enter = ExtensionCustomAction(data, keep_app_open=False))])
+                                on_enter = ExtensionCustomAction(data, keep_app_open=True))])
 
         elif action == "list":
 
@@ -70,7 +68,7 @@ class KeywordQueryEventListener(EventListener):
         elif action == "delete":
 
             return RenderResultListAction([
-                ExtensionResultItem(name = "Reopen a task",
+                ExtensionResultItem(name = "Delete a task",
                                 description = "Write the ID of the task to delete and click enter",
                                 icon = 'images/delete.png',
                                 on_enter = ExtensionCustomAction(data, keep_app_open=False))])
