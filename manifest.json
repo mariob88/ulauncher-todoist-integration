@@ -1,0 +1,25 @@
+{
+    "required_api_version": "2.0.0",
+    "name": "todoist-integration",
+    "description": "Integrate with todoist API",
+    "developer_name": "Mario Berlanga",
+    "icon": "images/main_icon.png",
+    "options": {
+      "query_debounce": 0.1
+    },
+    "preferences": [
+      {
+        "id": "kw",
+        "type": "keyword",
+        "name": "Todoist Keyword",
+        "default_value": "todo"
+      },
+      {
+        "id": "todoist_api_token",
+        "type": "input",
+        "name": "API Token",
+        "description": "You can get an API token following this: https://todoist.com/help/articles/find-your-api-token-Jpzx9IIlB",
+        "default_value": ""
+      }
+    ]
+  }
