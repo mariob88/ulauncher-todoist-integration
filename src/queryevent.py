@@ -47,7 +47,7 @@ class KeywordQueryEventListener(EventListener):
                 ExtensionResultItem(name = "Update a task",
                                 description = "Write the ID of the task to edit and a text to overwrite, then click enter.",
                                 icon = 'images/update.png',
-                                on_enter = ExtensionCustomAction(data, keep_app_open=False))])
+                                on_enter = ExtensionCustomAction(data, keep_app_open=True))])
 
         elif action == "close":
 
