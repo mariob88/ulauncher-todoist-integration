@@ -50,61 +50,99 @@ class ItemEnterEventListener(EventListener):
                                 on_enter = HideWindowAction())])
 
     def create_task(self, td_api, text, icon_path):
-        task = td_api.add_task(content=text)
-        task_id = task.id
+        try:
+            task = td_api.add_task(content=text)
+            task_id = task.id
 
-        Notify.init("todoist-extension")
-        Notify.Notification.new("New task created with ID " + task_id, "Created task: " + text, icon_path).show()
+            Notify.init("todoist-extension")
+            Notify.Notification.new("New task created with ID " + task_id, "Created task: " + text, icon_path).show()
 
-        return RenderResultListAction([
-                ExtensionResultItem(name = "Task created with ID: " + task_id,
-                                description = "Click enter to copy the ID to the clipboard.",
-                                icon = 'images/task.png',
-                                on_enter = CopyToClipboardAction(task_id))])
+            return RenderResultListAction([
+                    ExtensionResultItem(name = "Task created with ID: " + task_id,
+                                    description = "Click enter to copy the ID to the clipboard.",
+                                    icon = 'images/task.png',
+                                    on_enter = CopyToClipboardAction(task_id))])
+        except Exception:
+            logger.error(task)
+            return RenderResultListAction([
+                    ExtensionResultItem(name = "Something went wrong",
+                                    description = "Contact the administrator to check the problem",
+                                    icon = 'images/error.png',
+                                    on_enter = HideWindowAction())])
+
 
     def list_tasks(self, td_api):
         items = []
-        tasks = td_api.get_tasks()
+        try:
+            tasks = td_api.get_tasks()
+            
+            for t in tasks:
+                items.append(
+                ExtensionResultItem(name = t.content,
+                                    description = "Task id " + t.id,
+                                    icon = 'images/task.png',
+                                    on_enter = CopyToClipboardAction(t.id)))
+            
+            return items
         
-        for t in tasks:
-            items.append(
-            ExtensionResultItem(name = t.content,
-                                description = "Task id " + t.id,
-                                icon = 'images/task.png',
-                                on_enter = CopyToClipboardAction(t.id)))
-        
-        return items
+        except Exception:
+            logger.error(tasks)
+            logger.error(items)
+            return RenderResultListAction([
+                    ExtensionResultItem(name = "Something went wrong",
+                                    description = "Contact the administrator to check the problem",
+                                    icon = 'images/error.png',
+                                    on_enter = HideWindowAction())])
 
     def update_task(self, td_api, id, text, icon_path):
-        task = td_api.update_task(task_id=id, content=text)
-        logger.info(task)
-        task_id = task['id']
+        
+        try:    
+            task = td_api.update_task(task_id=id, content=text)
+            task_id = task['id']
 
-        Notify.init("todoist-extension")
-        Notify.Notification.new("Updated task with ID " + task_id, "New content: " + text, icon_path).show()
+            Notify.init("todoist-extension")
+            Notify.Notification.new("Updated task with ID " + task_id, "New content: " + text, icon_path).show()
 
-        return RenderResultListAction([
-                ExtensionResultItem(name = "Task updated with ID: " + task_id,
-                                description = "Click enter to copy the ID to the clipboard.",
-                                icon = 'images/update.png',
-                                on_enter = CopyToClipboardAction(task_id))])
+            return RenderResultListAction([
+                    ExtensionResultItem(name = "Task updated with ID: " + task_id,
+                                    description = "Click enter to copy the ID to the clipboard.",
+                                    icon = 'images/update.png',
+                                    on_enter = CopyToClipboardAction(task_id))])
+
+        except Exception:
+            logger.error(task)
+            return RenderResultListAction([
+                    ExtensionResultItem(name = "Something went wrong",
+                                    description = "Contact the administrator to check the problem",
+                                    icon = 'images/error.png',
+                                    on_enter = HideWindowAction())])
 
     def close_task(self, td_api, id, icon_path):
-        td_api.close_task(task_id=id)
+        try:
+            success = td_api.close_task(task_id=id)
 
-        Notify.init("todoist-extension")
-        Notify.Notification.new("Closed task", "Closed task with ID: " + id, icon_path).show()
+            Notify.init("todoist-extension")
+            Notify.Notification.new("Closed task", "Closed task with ID: " + id, icon_path).show()
+        except Exception:
+            logger.error(success)
 
     def reopen_task(self, td_api, id, icon_path):
-        td_api.reopen_task(task_id=id)
+        try:
+            success = td_api.reopen_task(task_id=id)
 
-        Notify.init("todoist-extension")
-        Notify.Notification.new("Reopened task", "Reopened task with ID: " + id, icon_path).show()
+            Notify.init("todoist-extension")
+            Notify.Notification.new("Reopened task", "Reopened task with ID: " + id, icon_path).show()
+
+        except Exception:
+            logger.error(success)
 
 
     def delete_task(self, td_api, id, icon_path):
-        td_api.delete_task(task_id=id)
+        try:
+            success = td_api.delete_task(task_id=id)
 
-        Notify.init("todoist-extension")
-        Notify.Notification.new("Task deleted", "Deleted task with ID: " + id, icon_path).show()
+            Notify.init("todoist-extension")
+            Notify.Notification.new("Task deleted", "Deleted task with ID: " + id, icon_path).show()
         
+        except Exception:
+            logger.error(success)
